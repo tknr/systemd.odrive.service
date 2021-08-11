@@ -1,21 +1,3 @@
-[Unit]
-Description=rTorrent with tmux
-Requires=network.target local-fs.target
-
-[Service]
-Type=simple
-RemainAfterExit=yes
-KillMode=control-group
-KillSignal=SIGTERM
-User=%I
-ExecStart=/usr/bin/tmux new-session -s rtorrent -n rtorrent -d rtorrent
-ExecStop=/usr/bin/tmux send-keys -t rtorrent:rtorrent C-q
-WorkingDirectory=/home/%I/
-Restart=always
-
-[Install]
-WantedBy=multi-user.target
-
 # systemd user service to run odrive agent
 #
 # Use loginctl enable-linger to create a user manager for the user at boot and kept around after logouts. This will allow auto-starting of the odrive agent for that user
@@ -37,7 +19,7 @@ After=network.target network-online.target
 [Service]
 Type=simple
 User=%I
-ExecStart=%I/.odrive-agent/bin/odriveagent
+ExecStart=/home/%I/.odrive-agent/bin/odriveagent
 Restart=on-failure
 RestartSec=10
 
